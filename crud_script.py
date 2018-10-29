@@ -18,7 +18,7 @@ session = DBSession()
 # newEntry = ClassName(property = "value", )
 # session.add(newEntry)
 # session.commit()
-
+"""
 myFirstRestaurant = Restaurant(name = "Pizza Father")
 session.add(myFirstRestaurant)
 session.commit()
@@ -30,9 +30,26 @@ cheesepizza = MenuItem(name = "Cheese Pizza", description =
                         price = "$8.99", course = "Entree",
                         restaurant = myFirstRestaurant)
 session.add(cheesepizza)
-session.commit()
-
+session.commit()""" # all items created in menu_items.py
 # Interact with my database and see what's inside of it
 
-print(session.query(Restaurant).all())
-print(session.query(MenuItem).all())
+vaggis = session.query(MenuItem).filter_by(name = 'Veggie Burger')
+for vaggi in vaggis:
+    print(vaggi.id)
+    print(vaggi.price)
+    print(vaggi.restaurant.name)
+    print("\n")
+BurgerFuther = session.query(MenuItem).filter_by(id = 8).one()
+print(BurgerFuther.price)
+print("\n")
+
+BurgerFuther.price = '$2.99'
+session.add(BurgerFuther)
+session.commit()
+
+vaggis = session.query(MenuItem).filter_by(name = 'Veggie Burger')
+for vaggi in vaggis:
+    print(vaggi.id)
+    print(vaggi.price)
+    print(vaggi.restaurant.name)
+    print("\n")
