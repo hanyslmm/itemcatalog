@@ -158,4 +158,4 @@ menuItem5 = MenuItem(name="Veggie Burger", description="Juicy grilled veggie pat
 session.add(menuItem5)
 session.commit()
 
-print "added menu items!"
+print("added menu items!")
