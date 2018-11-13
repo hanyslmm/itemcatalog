@@ -1,18 +1,33 @@
 #!/usr/bin/env python3
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
-# import all modules needed for configuration
+from flask import session as login_session # works like a dictionary store values in it
+import random, string # to create a pseudo-random string identify eachh login session
+# import all modules needed for sqlalchemy configuration
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from database_setup import Base, Restaurant, MenuItem
+
 # initializes an app variable, using the __name__ attribute
 app = Flask(__name__)
-# === let program know which database engine we want to communicate===
+# let program know which database engine we want to communicate
 engine = create_engine('sqlite:///restaurantmenu.db', connect_args={'check_same_thread': False}, echo=True, convert_unicode=True)
 # bind the engine to the Base class corresponding tables
 Base.metadata.bind = engine
+
 # create session maker object
 DBSession = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind = engine))
 session = DBSession()
+
+# Create anti-forgery state token
+@app.route('/login')
+def showLogin():
+    choices = string.ascii_uppercase + string.digits
+    state = ""
+    for i in range(32):
+        state += random.choice(choices)
+    print(state)
+    login_session['state'] = state
+    return render_template('login.html', STATE=state)
 
 # list all restaurant Name
 @app.route('/')
@@ -64,8 +79,6 @@ def editMenuItem(restaurant_id, menu_id):
         flash("{} menu item Edited!".format(editedItem.name)) # to make interaction with user
         return redirect(url_for('restaurantMenu', restaurant_id=restaurant_id))
     else:
-        # USE THE RENDER_TEMPLATE FUNCTION BELOW TO SEE THE VARIABLES YOU
-        # SHOULD USE IN YOUR EDITMENUITEM TEMPLATE
         return render_template(
             'editmenuitem.html', restaurant_id=restaurant_id, menu_id=menu_id, item=editedItem)
 
@@ -79,8 +92,6 @@ def deleteMenuItem(restaurant_id, menu_id):
         flash("{} menu item Deleted!".format(deletedItem.name)) # to make interaction with user
         return redirect(url_for('restaurantMenu', restaurant_id=restaurant_id))
     else:
-        # USE THE RENDER_TEMPLATE FUNCTION BELOW TO SEE THE VARIABLES YOU
-        # SHOULD USE IN YOUR DELETEMENUITEM TEMPLATE
         return render_template(
             'deletemenuitem.html', restaurant_id=restaurant_id, menu_id=menu_id, item=deletedItem)
 
