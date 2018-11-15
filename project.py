@@ -7,12 +7,13 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from database_setup import Base, Restaurant, MenuItem
 # google OAuth
-from oauth2client.client import flow_from_clientsecrets
-from oauth2client.client import FlowExchangeError
+from oauth2client.client import flow_from_clientsecrets # creates a flow object
+from oauth2client.client import FlowExchangeError # occured during exchange an authorization code for an access token
+
 import httplib2
 import json
 from flask import make_response
-import requests
+import requests # to use args.get function
 
 CLIENT_ID = json.loads(
     open('client_secrets.json', 'r').read())['web']['client_id']
@@ -43,8 +44,8 @@ def showLogin():
     login_session['state'] = state
     return render_template('login.html', STATE=state)
 
-@app.route('/gconnect', methods=['POST'])
-def gconnect():
+@app.route('/callback', methods=['POST'])
+def callback():
     # Validate state token
     if request.args.get('state') != login_session['state']:
         response = make_response(json.dumps('Invalid state parameter.'), 401)
