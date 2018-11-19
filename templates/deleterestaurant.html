@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Main</title>
+  <title>Delete Restaurant</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -43,7 +43,7 @@
 			<div class="row">
 				<div class="col-md-6 btn-group text-center" role="group">
 					<button type="button" class="btn btn-secondary pull-left">
-						<a href= '{{url_for('restaurantMenu', restaurant_id= item.restaurant_id)}}'>Cancel</a>
+						<a href= '{{url_for('restaurantMenu', restaurant_id= restaurant.id)}}'>Cancel</a>
 					</button>
 
 				</div>
@@ -67,26 +67,10 @@
 	</nav>
 
     	<div class="container container-fluid responsive">
-
-					<h2> Edit {{item.name}} Item </h2>
-
-					<form action="{{url_for('editMenuItem',restaurant_id=restaurant_id, menu_id=item.id )}}" method = 'POST'>
-
-
-						<p>Name:</p>
-						  <input type = 'text' size='30' name = 'name' placeholder = '{{item.name}}'>
-						<p>Description:</p>
-						  <input type ='text' size='60' name='description' placeholder = '{{item.description}}'>
-						<p>Price:</p>
-						  <input type ='text' size='30' name='price' placeholder = '{{item.price}}'>
-						</br>
-						</br>
-						<button type="button" class="btn btn-secondary pull-left">
-						<input type='submit' value='Edit'>
-						</button>
-					</form>
-
-
+				<form action="{{url_for('restaurantDelete',restaurant_id=restaurant.id)}}" method = 'POST'>
+					<h2>are you sure you want to delete "{{restaurant.name}}" </h2>
+				<input type='submit' value='Delete'>
+				</form>
 			</div>
 </body>
 </html>

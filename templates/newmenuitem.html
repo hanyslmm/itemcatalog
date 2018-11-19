@@ -1,19 +1,92 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+  <title>New Item</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<style>
+		p.groove {border-style: groove;}
+	</style>
 </head>
 <body>
-<h1> New Menu Item </h1>
 
-<form action="{{url_for('newMenuItem', restaurant_id=restaurant_id )}}" method = 'POST'>
+	<nav class="container navbar navbar-default">
 
-<p>Name:</p>
+			<div class="row jumbotron text-center" >
+				<div class="col-sm-2">
+					<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTH5R0y5qayuiElPD73gzkTivCHLx7oDWrYgsQz6QgFg3GkY_We" class="title-logo img-fluid img-responsive" height="150" width="150"/>
+				</div>
+				<div class="col-sm-10">
+					<h1>Restaurant Menu Application</h1>
+					<p> Create your own menu and keep it updated </p>
+					<p>
+						<!--  message flashing -->
+						{% with messages = get_flashed_messages() %}
+						{% if messages %}
+						<ul>
+							{% for message in messages %}
+								<li>
+									<strong>{{message}}</strong>
+								</li>
+							{% endfor %}
+						</ul>
+						{% endif %}
+						{% endwith %}
+					</p>
 
-<input type='text' size='30' name='name' placeholder="enter new menu item." >
+				</div>
+				</div>
 
-<input type='submit' value='Create'>
+			<div class="row">
+				<div class="col-md-6 btn-group text-center" role="group">
+					<button type="button" class="btn btn-secondary pull-left">
+						<a href= '{{url_for('restaurantMenu', restaurant_id= restaurant_id)}}'>Cancel</a>
+					</button>
 
-</form>
+				</div>
+				<div class="col-md-3 btn-group text-center" role="group">
+					<button type="button" class="btn btn-secondary pull-left">
+						<a href='{{url_for('restaurantName')}}'>Main Page</a>
+					</button>
 
+				</div>
+				<div class="col-md-3 btn-group text-center" role="group">
+					<button type="button" class="btn btn-secondary pull-right">
+						{% if 'username' not in session %}
+						<a  href="{{url_for('showLogin')}}">Click Here to login</a>
+						{% else %}
+						<a  href="{{url_for('gdisconnect')}}">Disconnect</a>
+						{% endif %}
+					</button>
+				</div>
+			</div>
+
+	</nav>
+
+    	<div class="container container-fluid responsive">
+
+					<h2> Add New Menu Item to {{restaurant.name}}  </h2>
+
+					<form action="{{url_for('newMenuItem',restaurant_id=restaurant_id)}}" method = 'POST'>
+
+
+						<p>Name:</p>
+						  <input type = 'text' size='30' name = 'name' placeholder = 'item name'>
+						<p>Description:</p>
+						  <input type ='text' size='60' name='description' placeholder = 'item description'>
+						<p>Price:</p>
+						  <input type ='text' size='30' name='price' placeholder = 'item price'>
+						</br>
+						</br>
+						<button type="button" class="btn btn-secondary pull-left">
+						<input type='submit' value='Create'>
+						</button>
+					</form>
+
+
+			</div>
 </body>
 </html>
