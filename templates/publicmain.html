@@ -1,15 +1,77 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+  <title>Main Public</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<style>
+		p.groove {border-style: groove;}
+	</style>
 </head>
 <body>
-<h1>Home Page</h1>
-  {% for i in restaurant %}
-  <div>
-    <p>{{i.name}}</p>
-    <a href='{{url_for('restaurantMenu', restaurant_id = i.id) }}'>go to menu</a>
-  </div>
 
-  {% endfor %}
+	<nav class="container navbar navbar-default">
+
+			<div class="row jumbotron text-center" >
+				<div class="col-sm-2">
+					<img src="static/waiter.png" class="title-logo img-fluid img-responsive" height="150" width="150"/>
+				</div>
+				<div class="col-sm-10">
+					<h1>Restaurant Menu Application</h1>
+					<p> Create your own menu and keep it updated </p>
+					<p>
+						<!--  message flashing -->
+						{% with messages = get_flashed_messages() %}
+						{% if messages %}
+						<ul>
+							{% for message in messages %}
+								<li>
+									<strong>{{message}}</strong>
+								</li>
+							{% endfor %}
+						</ul>
+						{% endif %}
+						{% endwith %}
+					</p>
+
+				</div>
+				</div>
+
+			<div class="row">
+				<div class="col-md-10 btn-group text-center" role="group">
+					<button type="button" class="btn btn-secondary pull-left">
+						<a href='{{url_for('newRestaurant')}}'>Create new restaurant</a>
+					</button>
+
+				</div>
+				<div class="col-md-2 btn-group text-center" role="group">
+					<button type="button" class="btn btn-secondary pull-right">
+						{% if 'username' not in session %}
+						<a  href="{{url_for('showLogin')}}">Click Here to login</a>
+						{% else %}
+						<a  href="{{url_for('gdisconnect')}}">Disconnect</a>
+						{% endif %}
+					</button>
+				</div>
+			</div>
+
+	</nav>
+
+	<div class="container">
+		{% for i in restaurant %}
+		<div class="col-md-3" style="padding: 20px; border: 3px solid #ccc">
+				<p><strong>{{i.name}}</strong></p>
+				</br>
+				<button type="button" class="btn btn-xs pull-left">
+				<a href='{{url_for('restaurantMenu', restaurant_id = i.id, creator = i.user_id) }}'>Go to menu</a>
+				</button>
+				</br>
+		</div>
+	  {% endfor %}
+	</div>
+
 </body>
 </html>
