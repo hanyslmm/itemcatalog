@@ -157,6 +157,7 @@ def callback():
 def gdisconnect():
     # Only disconnect a connected user.
     access_token = login_session.get('access_token')
+    print (access_token)
     if access_token is None:
         print ('Access Token is None')
         response = make_response(json.dumps('Current user not connected.'), 401)
@@ -166,22 +167,25 @@ def gdisconnect():
     print ('In gdisconnect access token is %s', access_token)
     print ('User name is: ')
     print (login_session['username'])
-    url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % login_session['access_token']
+    url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % access_token
+    print ('shaghaaaaaal')
     h = httplib2.Http()
     result = h.request(url, 'GET')[0]
     print ('result is ')
     print (result)
-    if result['status'] == '200':
+    if result['status'] == '200' or result['status'] == '400':
+        username = login_session['username']
         del login_session['access_token']
         del login_session['google_id']
         del login_session['username']
         del login_session['email']
         del login_session['picture']
-        response = make_response(json.dumps('Successfully disconnected.'), 200)
-        response.headers['Content-Type'] = 'application/json'
-        return response
+        #response = make_response(json.dumps('Successfully disconnected.'), 200)
+        #response.headers['Content-Type'] = 'application/json'
+        flash("{} logged out!".format(username)) # to make interaction with user
+        return redirect(url_for('restaurantName'))
     else:
-        response = make_response(json.dumps('Failed to revoke token for given user.', 400))
+        response = make_response(json.dumps('Failed to revoke token for given user.', 401))
         response.headers['Content-Type'] = 'application/json'
         return response
 
