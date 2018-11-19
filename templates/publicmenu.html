@@ -1,40 +1,98 @@
-  <html>
-  <head>
-  	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
-  </head>
-  <body>
-  <h1>{{restaurant.name}}</h1>
-    <a href='{{url_for('newMenuItem', restaurant_id = restaurant.id)}}'>Create new menu item</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Main</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<style>
+		p.groove {border-style: groove;}
+	</style>
+</head>
+<body>
+
+	<nav class="container navbar navbar-default">
+
+			<div class="row jumbotron text-center" >
+				<div class="col-sm-2">
+					<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTH5R0y5qayuiElPD73gzkTivCHLx7oDWrYgsQz6QgFg3GkY_We" class="title-logo img-fluid img-responsive" height="150" width="150"/>
+				</div>
+				<div class="col-sm-10">
+					<h1>Restaurant Menu Application</h1>
+					<p> Create your own menu and keep it updated </p>
+					<p>
+						<!--  message flashing -->
+						{% with messages = get_flashed_messages() %}
+						{% if messages %}
+						<ul>
+							{% for message in messages %}
+								<li>
+									<strong>{{message}}</strong>
+								</li>
+							{% endfor %}
+						</ul>
+						{% endif %}
+						{% endwith %}
+					</p>
+
+				</div>
+				</div>
+
+			<div class="row">
+				<div class="col-md-6 btn-group text-center" role="group">
+					<button type="button" class="btn btn-secondary pull-left">
+					</button>
+
+				</div>
+				<div class="col-md-3 btn-group text-center" role="group">
+					<button type="button" class="btn btn-secondary pull-left">
+						<a href='{{url_for('restaurantName')}}'>Main Page</a>
+					</button>
+
+				</div>
+				<div class="col-md-3 btn-group text-center" role="group">
+					<button type="button" class="btn btn-secondary pull-right">
+						{% if 'username' not in session %}
+						<a  href="{{url_for('showLogin')}}">Click Here to login</a>
+						{% else %}
+						<a  href="{{url_for('gdisconnect')}}">Disconnect</a>
+						{% endif %}
+					</button>
+				</div>
+			</div>
+
+	</nav>
+
+    	<div class="container container-fluid responsive">
+        <div>
+          <h2>{{ restaurant.name }} Restaurant</h2>
+        </div>
+    		{% for i in items %}
+    		<div class="row container-fluid responsive" style="padding: 20px; border: 3px solid #ccc">
+          <h3>{{i.name}}</h3>
+          <p>{{i.description}}</p>
+          <p>{{i.price}}</p>
+          </br>
+          </br>
+          <p><strong>Added by: {{creator.name}}</strong></p>
+          <img src={{creator.picture}} alt="Italian Trulli" height="100" width="100">
+    				</br>
+    				</br>
+    		</div>
+    	  {% endfor %}
+      </br>
+      </br>
+        <div class="row" style="padding: 20px; border: 3px solid #ccc">
+          <blockquote>
+            <footer>Made by: Hany Salama</footer>
+            <h5>You might think you’re not good enough, but you’ll surprise yourself if you keep trying.
+               Your past does not determine who you are. Your past prepares you for who you are capable of becoming.</h5>
+          </blockquote>
+        </div>
+    	</div>
 
 
-    <!--MESSAGE FLASHING -->
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-
-    <ul>
-    {% for message in messages %}
-      <li><strong>{{message}}</strong></li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-    {% endwith %}
-
-
-    {% for i in items %}
-    <div>
-
-      <p>{{i.name}}</p>
-
-      <p>{{i.description}}</p>
-
-      <p>{{i.price}}</p>
-
-      <p>{{creator.name}}</p>
-      <img src={{creator.picture}} alt="Italian Trulli">
-
-    </br>
-    </div>
-
-    {% endfor %}
   </body>
 </html>
