@@ -24,7 +24,7 @@ class User(Base):
     name = Column(String(250), nullable=False)
     email = Column(String(250), nullable=False)
     picture = Column(String(250))
-    user_type = Column(Integer, ForeignKey('usertype.id'))
+    user_type = Column(Integer, ForeignKey('usertype.id'), nullable=False)
     usertype = relationship(UserType)
 
     @property
@@ -43,7 +43,7 @@ class Restaurant(Base):
     __tablename__ = 'restaurant'
     id = Column(Integer, primary_key=True)
     name = Column(String(80), nullable=False)
-    user_id = Column(Integer, ForeignKey('user.id'))
+    user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
     user = relationship(User)
 
     @property
@@ -64,9 +64,9 @@ class MenuItem(Base):
     course = Column(String(250), nullable=False)
     description = Column(String(250), nullable=False)
     price = Column(String(8), nullable=False)
-    restaurant_id = Column(Integer, ForeignKey('restaurant.id'))
+    restaurant_id = Column(Integer, ForeignKey('restaurant.id'), nullable=False)
     restaurant = relationship(Restaurant)
-    user_id = Column(Integer, ForeignKey('user.id'))
+    user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
     user = relationship(User)
 
     @property
