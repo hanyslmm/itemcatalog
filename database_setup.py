@@ -85,12 +85,12 @@ engine = create_engine('sqlite:///restaurantmenuwithusers.db')
 Base.metadata.create_all(engine)
 print("connected to restaurantmenu database")
 
-# fill usertype table with Admin and Normal
-DBSession = sessionmaker(bind=engine)
-session = DBSession()
-admin = UserType(name='Admin')
-session.add(admin)
-normal = UserType(name='Normal')
-session.add(normal)
-session.commit()
-session.query(UserType).all()
+if __name__ == '__main__':
+    # fill usertype table with Admin and Normal
+    DBSession = sessionmaker(bind=engine)
+    session = DBSession()
+    admin = UserType(name='Admin')
+    session.add(admin)
+    normal = UserType(name='Normal')
+    session.add(normal)
+    session.commit()

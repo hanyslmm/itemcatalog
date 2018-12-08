@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from database_setup import Restaurant, Base, MenuItem, User
+from database_setup import Restaurant, Base, MenuItem, User, UserType
 
 engine = create_engine('sqlite:///restaurantmenuwithusers.db')
 # Bind the engine to the metadata of the Base class so that the
