@@ -13,6 +13,7 @@ Base = declarative_base()
 # add usertype class definition code for usertype table
 class UserType(Base):
     __tablename__ = 'usertype'
+
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
 
@@ -20,6 +21,7 @@ class UserType(Base):
 # add class definition code and mapper for user table
 class User(Base):
     __tablename__ = 'user'
+
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
     email = Column(String(250), nullable=False)
@@ -41,11 +43,12 @@ class User(Base):
 # add class definition code and mapper for restaurant table
 class Restaurant(Base):
     __tablename__ = 'restaurant'
+
     id = Column(Integer, primary_key=True)
     name = Column(String(80), nullable=False)
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
     user = relationship(User)
-
+    menu_item = relationship("MenuItem", cascade="all, delete-orphan")
     @property
     def serialize(self):
         """return object data in easily serializeable format"""
@@ -59,6 +62,7 @@ class Restaurant(Base):
 # add class definition code and mapper for menu item table
 class MenuItem(Base):
     __tablename__ = 'menu_item'
+
     id = Column(Integer, primary_key=True)
     name = Column(String(80), nullable=False)
     course = Column(String(250), nullable=False)
@@ -68,6 +72,7 @@ class MenuItem(Base):
     restaurant = relationship(Restaurant)
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
     user = relationship(User)
+
 
     @property
     def serialize(self):
@@ -89,8 +94,8 @@ if __name__ == '__main__':
     # fill usertype table with Admin and Normal
     DBSession = sessionmaker(bind=engine)
     session = DBSession()
-    admin = UserType(name='Admin')
-    session.add(admin)
     normal = UserType(name='Normal')
     session.add(normal)
+    admin = UserType(name='Admin')
+    session.add(admin)
     session.commit()

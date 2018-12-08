@@ -19,9 +19,9 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 
-# Create dummy user
+# Create Admin user
 User1 = User(name="Hany Salama", email="hanyslmm@gmail.com",
-             picture='https://secure.gravatar.com/avatar/0fe8828052a5d3351f24fd0a80365303.jpg?s=512&r=g&d=mm', user_type=1)
+             picture='https://secure.gravatar.com/avatar/0fe8828052a5d3351f24fd0a80365303.jpg?s=512&r=g&d=mm', user_type=2)
 session.add(User1)
 session.commit()
 

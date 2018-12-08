@@ -39,21 +39,19 @@ session = DBSession()
 
 
 # User helper functions
-
 def createUser(login_session):
     newUser = User(name=login_session['username'],
                    email=login_session['email'],
-                   picture=login_session['picture'])
+                   picture=login_session['picture'],
+                   user_type=1)
     session.add(newUser)
     session.commit()
     user = session.query(User).filter_by(email=login_session['email']).one()
     return user.id
 
-
 def getUserInfo(user_id):
     user = session.query(User).filter_by(id=user_id).one()
     return user  # user object associated with his ID number
-
 
 def getUserID(email):
     try:
@@ -296,6 +294,8 @@ def newMenuItem(restaurant_id):
             newItem.name = request.form['name']
         if request.form['price']:
             newItem.price = request.form['price']
+        if request.form['course']:
+            newItem.course = request.form['course']
         if request.form['description']:
             newItem.description = request.form['description']
         session.add(newItem)
@@ -327,6 +327,8 @@ def editMenuItem(restaurant_id, menu_id):
             editedItem.price = request.form['price']
         if request.form['description']:
             editedItem.description = request.form['description']
+        if request.form['course']:
+            editedItem.course = request.form['course']
         session.add(editedItem)
         session.commit()
         # to make interaction with user
