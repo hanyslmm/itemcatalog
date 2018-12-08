@@ -233,7 +233,9 @@ def restaurantDelete(restaurant_id):
     if 'username' not in login_session:
         return redirect('/login')
     if deletedRestaurant.user_id != login_session['user_id']:
-        return "<script>{alert('You are not authorized to delete this Restaurant.');}</script>"
+        output = "<script>{alert('You are not authorized"
+        output += " to delete this Restaurant.');}</script>"
+        return output
     deletedItems = session.query(MenuItem).filter_by(restaurant_id=restaurant_id).all()
     if request.method == 'POST':
         session.delete(deletedRestaurant)
