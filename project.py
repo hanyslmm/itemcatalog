@@ -49,9 +49,11 @@ def createUser(login_session):
     user = session.query(User).filter_by(email=login_session['email']).one()
     return user.id
 
+
 def getUserInfo(user_id):
     user = session.query(User).filter_by(id=user_id).one()
     return user  # user object associated with his ID number
+
 
 def getUserID(email):
     try:
@@ -193,7 +195,7 @@ def gdisconnect():
     result = h.request(url, 'GET')[0]
     print ('result is ')
     print (result)
-    if result['status'] == '200' or result['status'] == '400':
+    if result['status'] == '200' or result['status'] == '400':  # review
         username = login_session['username']
         del login_session['access_token']
         del login_session['google_id']
