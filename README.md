@@ -23,7 +23,32 @@ docker run -d -p 8009:5000 --name crudserver hanyslmm/crud_webapp python3.6 proj
 http://localhost:8009 to open home page
 
 
-# JSON Endpoint
-To return JSON of all items in restaurant:
-http://localhost:8009/restaurant/int:restaurant_id/menu/JSON
+# JSON Endpoint:
+1- To return JSON of all restaurant info in database:
 
+http://localhost:8009/restaurant/JSON
+or
+http://localhost:5000/restaurant/JSON
+
+2- To return JSON of all items in certin restaurant:
+
+http://localhost:8009/restaurant/int:restaurant_id/menu/JSON
+http://localhost:5000/restaurant/int:restaurant_id/menu/JSON
+
+
+# Run Project using Ubuntu OS:
+
+1- install git using apt-get install git
+
+2- mkdir for your project 
+
+3- run git init in the directory
+
+4- run git clone https://github.com/hanyslmm/itemcatalog.git
+
+5- run python3.7 project
+
+
+mader by
+
+hany salama
