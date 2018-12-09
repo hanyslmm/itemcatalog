@@ -377,11 +377,12 @@ def restaurantMenuJSON(restaurant_id):
     return jsonify(MenuItems=[i.serialize for i in items])
 
 
-# ADD JSON ENDPOINT HERE
-@app.route('/restaurant/<int:restaurant_id>/menu/<int:menu_id>/JSON')
-def menuItemJSON(restaurant_id, menu_id):
-    menuItem = session.query(MenuItem).filter_by(id=menu_id).one()
-    return jsonify(MenuItem=menuItem.serialize)
+# 8: Create JSON file for all restaurant
+@app.route('/restaurant/JSON')
+def restaurantJSON():
+    restaurant = session.query(Restaurant).all()
+    return jsonify(Restaurant=[i.serialize for i in restaurant])
+
 
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
